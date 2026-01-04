@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PaperWrite — Text → PDF</title>
+
+  <!-- Google fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- html2pdf (wraps jsPDF + html2canvas) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+
+  <!-- App -->
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 24 24" width="26" height="26" aria-hidden><path fill="currentColor" d="M4 4h10v2H6v12h12v-8h2v10H4z"/></svg>
+        <span>PaperWrite</span>
+      </div>
+
+      <div class="controls">
+        <div class="save-status" id="saveStatus">No content</div>
+
+        <div class="toolbar" id="toolbar">
+          <div class="group formatting">
+            <button class="btn icon" data-cmd="bold" title="Bold (Ctrl+B)"><strong>B</strong></button>
+            <button class="btn icon" data-cmd="italic" title="Italic (Ctrl+I)"><em>I</em></button>
+            <button class="btn icon" data-cmd="underline" title="Underline"><u>U</u></button>
+          </div>
+
+          <div class="group selectors">
+            <select id="fontFamily" title="Font family">
+              <option value="Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial">Inter (Sans)</option>
+              <option value="Merriweather, Georgia, serif">Merriweather (Serif)</option>
+              <option value="Georgia, serif">Georgia</option>
+              <option value="Arial, Helvetica, sans-serif">Arial</option>
+            </select>
+
+            <select id="fontSize" title="Font size">
+              <option value="10">10 pt</option>
+              <option value="11">11 pt</option>
+              <option value="12" selected>12 pt</option>
+              <option value="14">14 pt</option>
+              <option value="16">16 pt</option>
+              <option value="18">18 pt</option>
+              <option value="20">20 pt</option>
+            </select>
+
+            <select id="lineHeight" title="Line spacing">
+              <option value="1">1.0</option>
+              <option value="1.15" selected>1.15</option>
+              <option value="1.5">1.5</option>
+              <option value="2">2.0</option>
+            </select>
+          </div>
+
+          <div class="group align">
+            <button class="btn icon" data-cmd="justifyleft" title="Align left">⟵</button>
+            <button class="btn icon" data-cmd="justifycenter" title="Center">≡</button>
+            <button class="btn icon" data-cmd="justifyright" title="Align right">⟶</button>
+            <button class="btn icon" data-cmd="justifyfull" title="Justify">☰</button>
+          </div>
+
+          <div class="group pages">
+            <button class="btn" id="addPage" title="Add page">+ Page</button>
+            <button class="btn warn" id="removePage" title="Remove last page">− Page</button>
+          </div>
+
+          <div class="group actions">
+            <button class="btn primary" id="generatePdf" title="Generate PDF">Generate PDF</button>
+            <button class="btn" id="sharePdf" title="Share PDF">Share</button>
+            <button class="btn" id="saveAs" title="Save draft">Save…</button>
+            <button class="btn" id="loadDraft" title="Load draft">Open</button>
+            <button class="btn ghost" id="toggleTheme" title="Toggle dark mode">Theme</button>
+          </div>
+        </div>
+
+        <button class="hamburger" id="hamburger" aria-label="Open toolbar">
+          ☰
+        </button>
+      </div>
+    </header>
+
+    <main class="workspace" id="workspace">
+      <div class="page-container" id="pages"></div>
+    </main>
+
+    <!-- Modals -->
+    <div class="modal" id="draftModal" aria-hidden="true">
+      <div class="modal-card">
+        <h3>Saved drafts</h3>
+        <div id="draftList" class="draft-list"></div>
+        <div class="modal-actions">
+          <button class="btn" id="closeDraftModal">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal" id="saveModal" aria-hidden="true">
+      <div class="modal-card">
+        <h3>Save draft</h3>
+        <input id="draftName" placeholder="Draft name (e.g. Meeting notes)"/>
+        <div class="modal-actions">
+          <button class="btn primary" id="confirmSave">Save</button>
+          <button class="btn" id="cancelSave">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <small>Tip: Use Ctrl/Cmd+B, Ctrl/Cmd+I, Ctrl/Cmd+S. Two-finger pinch to zoom on touchscreens.</small>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
